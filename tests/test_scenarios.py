@@ -1,4 +1,3 @@
-"""كل ملف في test_data/ له توقّع صريح. يفشل الاختبار إذا تغيّر السلوك."""
 import pathlib
 import subprocess
 import sys
@@ -27,18 +26,18 @@ def test_01_messy_cafe():
 
 def test_02_excel_title_rows_no_cost():
     df, _, f = run("02_english_xlsx_title_rows_no_cost.xlsx")
-    assert set(df["product"]) >= {"برجر", "عصير"}      # قُرئت ورقة Sales لا Notes
-    assert (df.date.min().month, df.date.max().month) == (6, 10)   # تواريخ Excel لم تنقلب
+    assert set(df["product"]) >= {"برجر", "عصير"}
+    assert (df.date.min().month, df.date.max().month) == (6, 10)
     assert f["comparison"]["current_period"] == "2026-10"
     assert not f["data_info"]["has_cost"] and "best_weekday" in f["kpis"]
-    assert f["comparison"]["revenue_change"] < 0         # الهبوط المزروع (-30%) ظاهر
-    assert "profit_change" not in f["comparison"]         # لا يخترع ربحًا بلا تكلفة
+    assert f["comparison"]["revenue_change"] < 0
+    assert "profit_change" not in f["comparison"]
 
 
 def test_03_semicolon_cp1256_thousands():
     df, _, f = run("03_semicolon_cp1256.csv")
-    assert df["revenue"].max() == 1800                    # "1,800" قُرئت 1800 لا 1
-    assert f["comparison"]["cost_change_pct"] > 15        # ارتفاع التكلفة المزروع
+    assert df["revenue"].max() == 1800
+    assert f["comparison"]["cost_change_pct"] > 15
 
 
 def test_04_returns():
@@ -63,7 +62,7 @@ def test_06_missing_date_is_rejected_clearly():
 
 def test_07_mixed_date_formats_keep_all_rows():
     df, rep, _ = run("07_mixed_date_formats.csv")
-    assert not any("غير صالح" in r for r in rep)          # ولا صف ضاع بسبب صيغة التاريخ
+    assert not any("غير صالح" in r for r in rep)
     assert df["date"].min().month == 6 and df["date"].max().month == 10
 
 
